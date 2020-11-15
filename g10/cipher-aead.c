@@ -36,7 +36,9 @@
 
 /* The size of the buffer we allocate to encrypt the data.  This must
  * be a multiple of the OCB blocksize (16 byte).  */
-#define AEAD_ENC_BUFFER_SIZE (64*1024)
+// #define AEAD_ENC_BUFFER_SIZE (64*1024*1024)
+
+extern int iobuf_buffer_size;
 
 
 /* Wrapper around iobuf_write to make sure that a proper error code is
@@ -152,7 +154,7 @@ write_header (cipher_filter_context_t *cfx, iobuf_t a)
   cfx->chunkbyte = opt.chunk_size - 6;
   cfx->chunksize = (uint64_t)1 << (cfx->chunkbyte + 6);
   cfx->chunklen = 0;
-  cfx->bufsize = AEAD_ENC_BUFFER_SIZE;
+  cfx->bufsize = iobuf_buffer_size;
   cfx->buflen = 0;
   cfx->buffer = xtrymalloc (cfx->bufsize);
   if (!cfx->buffer)

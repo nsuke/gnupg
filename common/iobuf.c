@@ -70,7 +70,7 @@
 
 /* The size of the iobuffers.  This can be changed using the
  * iobuf_set_buffer_size function.  */
-static unsigned int iobuf_buffer_size = DEFAULT_IOBUF_BUFFER_SIZE;
+unsigned int iobuf_buffer_size = DEFAULT_IOBUF_BUFFER_SIZE;
 
 
 #ifdef HAVE_W32_SYSTEM
@@ -1141,8 +1141,8 @@ iobuf_set_buffer_size (unsigned int kilobyte)
     {
       if (kilobyte < 4)
         kilobyte = 4;
-      else if (kilobyte > 16*1024)
-        kilobyte = 16*1024;
+      // else if (kilobyte > 16*1024)
+      //   kilobyte = 16*1024;
 
       iobuf_buffer_size = kilobyte * 1024;
       used = 1;
