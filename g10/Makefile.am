@@ -184,7 +184,7 @@ LDADD =  $(needed_libs) ../common/libgpgrl.a \
          $(ZLIBS) $(LIBINTL) $(CAPLIBS) $(NETLIBS)
 gpg_LDADD = $(LDADD) $(SQLITE3_LIBS) $(LIBGCRYPT_LIBS) $(LIBREADLINE) \
              $(LIBASSUAN_LIBS) $(NPTH_LIBS) $(GPG_ERROR_LIBS) \
-	     $(LIBICONV) $(resource_objs) $(extra_sys_libs)
+	     $(LIBICONV) $(resource_objs) $(extra_sys_libs) -lprofiler
 gpg_LDFLAGS = $(extra_bin_ldflags)
 gpgv_LDADD = $(LDADD) $(LIBGCRYPT_LIBS) \
 	      $(LIBASSUAN_LIBS) $(NPTH_LIBS) $(GPG_ERROR_LIBS) \
