@@ -20,6 +20,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+#include <time.h>
 #include <config.h>
 #include <errno.h>
 #include <stdio.h>
@@ -2282,6 +2283,7 @@ gpg_deinit_default_ctrl (ctrl_t ctrl)
 int
 main (int argc, char **argv)
 {
+    time_t begin, end;
     gpgrt_argparse_t pargs;
     IOBUF a;
     int rc=0;
@@ -2340,6 +2342,7 @@ main (int argc, char **argv)
     static const char *homedirvalue;
     static const char *changeuser;
 
+    begin = clock();
 
 #ifdef __riscos__
     opt.lock_once = 1;
@@ -5245,12 +5248,26 @@ main (int argc, char **argv)
 	break;
       }
 
+    if (gcry_ocb_elapsed())
+      fprintf(stderr, "OCB_ELAPSED: %f\n", gcry_ocb_elapsed() / 1000.);
+    if (gcry_ocb_elapsed_gpu_enc())
+      fprintf(stderr, "OCB_ELAPSED_GPU_ENC: %f\n", gcry_ocb_elapsed_gpu_enc());
+    if (gcry_ocb_elapsed_gpu_offset())
+      fprintf(stderr, "OCB_ELAPSED_GPU_OFF: %f\n", gcry_ocb_elapsed_gpu_offset());
+    if (gcry_ocb_elapsed_gpu_checksum())
+      fprintf(stderr, "OCB_ELAPSED_GPU_CHK: %f\n", gcry_ocb_elapsed_gpu_checksum());
+
     /* cleanup */
     gpg_deinit_default_ctrl (ctrl);
     xfree (ctrl);
     release_armor_context (afx);
     FREE_STRLIST(remusr);
     FREE_STRLIST(locusr);
+
+    end = clock();
+
+    fprintf(stderr, "TOTAL_ELAPSED: %f\n", (double)(end - begin) / 1000.);
+
     g10_exit(0);
     return 8; /*NEVER REACHED*/
 }
